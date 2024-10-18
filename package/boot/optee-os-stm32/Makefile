@@ -33,7 +33,14 @@ define Optee-os/stm32mp135f-dk
   PLAT_FLAVOR:=135F_DK
 endef
 
-OPTEE_TARGETS := stm32mp135f-dk
+define Optee-os/stm32mp157f-dk2
+  $(call Optee-os/stm32mp1)
+  NAME:=STM32MP157F-DK2
+  PLAT_FLAVOR:=157F_DK2
+endef
+
+OPTEE_TARGETS := stm32mp135f-dk \
+		 stm32mp157f-dk2
 
 define Package/optee-os/install/default
 endef

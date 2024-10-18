@@ -1,0 +1,13 @@
+diff --git a/arch/arm/boot/dts/st/stm32mp151.dtsi b/arch/arm/boot/dts/st/stm32mp151.dtsi
+index 3beef6e2d1bc..a497f286e295 100644
+--- a/arch/arm/boot/dts/st/stm32mp151.dtsi
++++ b/arch/arm/boot/dts/st/stm32mp151.dtsi
+@@ -1658,7 +1658,7 @@ ethernet0: ethernet@5800a000 {
+ 					 <&rcc ETHCK_K>,
+ 					 <&rcc ETHPTP_K>,
+ 					 <&rcc ETHSTP>;
+-				st,syscon = <&syscfg 0x4>;
++				st,syscon = <&syscfg 0x4 0xFF0000>;
+ 				snps,mixed-burst;
+ 				snps,pbl = <2>;
+ 				snps,en-tx-lpi-clockgating;

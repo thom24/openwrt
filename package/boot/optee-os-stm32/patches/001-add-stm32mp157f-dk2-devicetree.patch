@@ -1,0 +1,105 @@
+Index: optee-os-4.3.0/core/arch/arm/dts/stm32mp15xf.dtsi
+===================================================================
+--- /dev/null
++++ optee-os-4.3.0/core/arch/arm/dts/stm32mp15xf.dtsi
+@@ -0,0 +1,18 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
++/*
++ * Copyright (C) STMicroelectronics 2019 - All Rights Reserved
++ * Author: Alexandre Torgue <alexandre.torgue@st.com> for STMicroelectronics.
++ */
++
++/ {
++	soc {
++		cryp1: cryp@54001000 {
++			compatible = "st,stm32mp1-cryp";
++			reg = <0x54001000 0x400>;
++			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&rcc CRYP1>;
++			resets = <&rcc CRYP1_R>;
++			status = "disabled";
++		};
++	};
++};
+Index: optee-os-4.3.0/core/arch/arm/dts/stm32mp157f-dk2.dts
+===================================================================
+--- /dev/null
++++ optee-os-4.3.0/core/arch/arm/dts/stm32mp157f-dk2.dts
+@@ -0,0 +1,41 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
++/*
++ * Copyright (C) STMicroelectronics 2019 - All Rights Reserved
++ * Author: Alexandre Torgue <alexandre.torgue@st.com> for STMicroelectronics.
++ */
++
++/dts-v1/;
++
++#include "stm32mp157.dtsi"
++#include "stm32mp15xf.dtsi"
++#include "stm32mp15-pinctrl.dtsi"
++#include "stm32mp15xxac-pinctrl.dtsi"
++#include "stm32mp15xx-dkx.dtsi"
++
++/ {
++	model = "STMicroelectronics STM32MP157F-DK2 Discovery Board";
++	compatible = "st,stm32mp157f-dk2", "st,stm32mp157";
++
++	aliases {
++		ethernet0 = &ethernet0;
++		serial0 = &uart4;
++		serial1 = &usart3;
++		serial2 = &uart7;
++		serial3 = &usart2;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++};
++
++&bsec {
++	board_id: board_id@ec {
++		reg = <0xec 0x4>;
++		st,non-secure-otp;
++	};
++	huk_otp: huk-otp@f0 {
++		reg = <0xf0 0x10>;
++	};
++};
++
+Index: optee-os-4.3.0/core/arch/arm/plat-stm32mp1/conf.mk
+===================================================================
+--- optee-os-4.3.0.orig/core/arch/arm/plat-stm32mp1/conf.mk
++++ optee-os-4.3.0/core/arch/arm/plat-stm32mp1/conf.mk
+@@ -5,6 +5,7 @@ flavor_dts_file-157C_DHCOM_PDK2 = stm32m
+ flavor_dts_file-157C_DK2 = stm32mp157c-dk2.dts
+ flavor_dts_file-157C_ED1 = stm32mp157c-ed1.dts
+ flavor_dts_file-157C_EV1 = stm32mp157c-ev1.dts
++flavor_dts_file-157F_DK2 = stm32mp157f-dk2.dts
+ flavor_dts_file-157A_DK1_SCMI = stm32mp157a-dk1-scmi.dts
+ flavor_dts_file-157C_DK2_SCMI = stm32mp157c-dk2-scmi.dts
+ flavor_dts_file-157C_ED1_SCMI = stm32mp157c-ed1-scmi.dts
+@@ -13,6 +14,7 @@ flavor_dts_file-157C_EV1_SCMI = stm32mp1
+ flavor_dts_file-135F_DK = stm32mp135f-dk.dts
+ 
+ flavorlist-cryp-512M = $(flavor_dts_file-157C_DK2) \
++		       $(flavor_dts_file-157F_DK2) \
+ 		       $(flavor_dts_file-157C_DK2_SCMI) \
+ 		       $(flavor_dts_file-135F_DK)
+ 
+@@ -40,6 +42,7 @@ flavorlist-MP15-HUK-DT = $(flavor_dts_fi
+ 			 $(flavor_dts_file-157C_DK2) \
+ 			 $(flavor_dts_file-157C_ED1) \
+ 			 $(flavor_dts_file-157C_EV1) \
++			 $(flavor_dts_file-157F_DK2) \
+ 			 $(flavor_dts_file-157A_DK1_SCMI) \
+ 			 $(flavor_dts_file-157C_DK2_SCMI) \
+ 			 $(flavor_dts_file-157C_ED1_SCMI) \
+@@ -51,6 +54,7 @@ flavorlist-MP15 = $(flavor_dts_file-157A
+ 		  $(flavor_dts_file-157C_DK2) \
+ 		  $(flavor_dts_file-157C_ED1) \
+ 		  $(flavor_dts_file-157C_EV1) \
++		  $(flavor_dts_file-157F_DK2) \
+ 		  $(flavor_dts_file-157A_DK1_SCMI) \
+ 		  $(flavor_dts_file-157C_DK2_SCMI) \
+ 		  $(flavor_dts_file-157C_ED1_SCMI) \

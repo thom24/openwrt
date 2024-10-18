@@ -58,6 +58,14 @@ define Device/stm32mp135f-dk
   SUPPORTED_DEVICES := st,stm32mp135f-dk
 endef
 
-TARGET_DEVICES += stm32mp135f-dk
+define Device/stm32mp157f-dk2
+  DEVICE_MODEL := STM32MP157F-DK2
+  DEVICE_DTS := stm32mp157f-dk2
+  SUPPORTED_DEVICES := st,stm32mp157f-dk2
+endef
+
+
+TARGET_DEVICES += stm32mp135f-dk \
+		  stm32mp157f-dk2
 
 $(eval $(call BuildImage))

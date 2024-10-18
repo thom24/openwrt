@@ -1,0 +1,69 @@
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+index 3af934d0c500..539400840082 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+@@ -336,7 +336,7 @@ static int stm32_dwmac_parse_data(struct stm32_dwmac *dwmac,
+ {
+ 	struct device_node *np = dev->of_node;
+ 	int err;
+-
++	printk("%s: %d\n", __func__, __LINE__);
+ 	/*  Get TX/RX clocks */
+ 	dwmac->clk_tx = devm_clk_get(dev, "mac-clk-tx");
+ 	if (IS_ERR(dwmac->clk_tx)) {
+@@ -344,29 +344,34 @@ static int stm32_dwmac_parse_data(struct stm32_dwmac *dwmac,
+ 		return PTR_ERR(dwmac->clk_tx);
+ 	}
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	dwmac->clk_rx = devm_clk_get(dev, "mac-clk-rx");
+ 	if (IS_ERR(dwmac->clk_rx)) {
+ 		dev_err(dev, "No ETH Rx clock provided...\n");
+ 		return PTR_ERR(dwmac->clk_rx);
+ 	}
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	if (dwmac->ops->parse_data) {
+ 		err = dwmac->ops->parse_data(dwmac, dev);
+ 		if (err)
+ 			return err;
+ 	}
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	/* Get mode register */
+ 	dwmac->regmap = syscon_regmap_lookup_by_phandle(np, "st,syscon");
+ 	if (IS_ERR(dwmac->regmap))
+ 		return PTR_ERR(dwmac->regmap);
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	err = of_property_read_u32_index(np, "st,syscon", 1, &dwmac->mode_reg);
+ 	if (err) {
+ 		dev_err(dev, "Can't get sysconfig mode offset (%d)\n", err);
+ 		return err;
+ 	}
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	dwmac->mode_mask = SYSCFG_MP1_ETH_MASK;
+ 	err = of_property_read_u32_index(np, "st,syscon", 2, &dwmac->mode_mask);
+ 	if (err) {
+@@ -376,16 +381,20 @@ static int stm32_dwmac_parse_data(struct stm32_dwmac *dwmac,
+ 			dev_dbg(dev, "Warning sysconfig register mask not set\n");
+ 	}
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	dwmac->regulator = devm_regulator_get_optional(dev, "phy");
+ 	if (IS_ERR(dwmac->regulator)) {
++	printk("%s: %d\n", __func__, __LINE__);
+ 		if (PTR_ERR(dwmac->regulator) == -EPROBE_DEFER) {
+ 			dev_dbg(dev, "phy regulator is not available yet, deferred probing\n");
+ 			return -EPROBE_DEFER;
+ 		}
++	printk("%s: %d\n", __func__, __LINE__);
+ 		dev_dbg(dev, "no regulator found\n");
+ 		dwmac->regulator = NULL;
+ 	}
+ 
++	printk("%s: %d\n", __func__, __LINE__);
+ 	return err;
+ }
+ 

@@ -37,7 +37,15 @@ define Trusted-Firmware-A/stm32mp135f-dk
   DTB_FILE_NAME=stm32mp135f-dk.dtb
 endef
 
-TFA_TARGETS := stm32mp135f-dk
+define Trusted-Firmware-A/stm32mp157f-dk2
+  $(call Trusted-Firmware-A/stm32mp1)
+  NAME:=STM32MP157F-DK2
+  DTB_FILE_NAME=stm32mp157f-dk2.dtb
+endef
+
+
+TFA_TARGETS := stm32mp135f-dk \
+	       stm32mp157f-dk2
 
 TFA_MAKE_FLAGS += \
 		ARCH=aarch32 AARCH32_SP=optee \
